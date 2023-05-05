@@ -1,11 +1,8 @@
-# tool_template_python
+# tool_era5cli
 
-[![Docker Image CI](https://github.com/VForWaTer/tool_template_python/actions/workflows/docker-image.yml/badge.svg)](https://github.com/VForWaTer/tool_template_python/actions/workflows/docker-image.yml)
-[![DOI](https://zenodo.org/badge/558416591.svg)](https://zenodo.org/badge/latestdoi/558416591)
+Tool to use the [era5cli](https://github.com/eWaterCycle/era5cli), which is a command line interface to download ERA5 data from the [Copernicus Climate Data Store](https://climate.copernicus.eu/).
 
-This is the template for a generic containerized Python tool following the [Tool Specification](https://vforwater.github.io/tool-specs/) for reusable research software using Docker.
-
-This template can be used to generate new Github repositories from it.
+The implementation follows the [Tool Specification](https://vforwater.github.io/tool-specs/) for reusable research software using Docker.
 
 
 ## How generic?
