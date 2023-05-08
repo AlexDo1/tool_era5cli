@@ -4,9 +4,11 @@ FROM python:3.10
 # install the toolbox runner tools
 RUN pip install json2args
 
+# install era5cli
+RUN pip install era5cli
 
-# Do anything you need to install tool dependencies here
-RUN echo "Replace this line with a tool"
+# register api credentials
+RUN python src/register_api_credentials.py
 
 # create the tool input structure
 RUN mkdir /in
