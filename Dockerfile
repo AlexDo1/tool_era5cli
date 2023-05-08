@@ -7,9 +7,6 @@ RUN pip install json2args
 # install era5cli
 RUN pip install era5cli
 
-# register api credentials
-RUN python src/register_api_credentials.py
-
 # create the tool input structure
 RUN mkdir /in
 COPY ./in /in
@@ -18,4 +15,8 @@ RUN mkdir /src
 COPY ./src /src
 
 WORKDIR /src
+
+# register api credentials
+RUN python register_api_credentials.py
+
 CMD ["python", "run.py"]

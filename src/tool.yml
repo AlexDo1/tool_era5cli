@@ -1,25 +1,60 @@
 tools:
-  foobar:
-    title: Foo Bar
-    description: A dummy tool to exemplify the YAML file
+  era5_land:
+    title: Download ERA5-Land data
+    description: |
+      Dowload data from the ERA5-Land dataset, which is available for 
+      public use for the period from 1950 to 5 days before the current 
+      date. ERA5-Land provides hourly high resolution information of 
+      surface variables. The data is a replay of the land component of 
+      the ERA5 climate reanalysis with a finer spatial resolution: ~9km
+      grid spacing. ERA5-Land includes information about uncertainties 
+      for all variables at reduced spatial and temporal resolutions.
     version: 0.1
     parameters:
-      foo_int: 
-        type: integer
-      foo_float:
-        type: float
-      foo_string:
+      variables:
         type: string
-      foo_enum:
+        description: |
+          The variables to download data for. This can be a single 
+          variable, or multiple. See the Copernicus Climate Data Store 
+          website for available variables.
+          Give multiple variables whitespace delimeted, eg.
+          `2m_temperature 2m_dewpoint_temperature`.
+      temporal_resolution:
         type: enum
         values:
-          - foo
-          - bar
-          - baz
-      foo_array:
+          - hourly
+          - monthly
+        description: |
+          Execute the data fetch process for hourly or monthly data.
+      startyear:
         type: integer
-        array: true
-      foo_matrix:
-        type: file
-      foo_csv:
-        type: file
+        min: 1950
+        max: 2023
+        optional: true
+        description: |
+          Single year or first year of range for which data should be 
+          downloaded.
+          Every year will be downloaded in a separate file by default. 
+          Set `split=false` to change this.
+      endyear:
+        type: integer
+        min: 1950
+        max: 2023
+        optional: true
+        description: |
+          Last year of range for which data should be downloaded.
+          If only a single year is needed, only `startyear` needs to 
+          be specified.
+          Every year will be downloaded in a separate file by default. 
+          Set `split=false` to change this.
+      area:
+        type: string
+        optional: true
+        description: |
+          Coordinates in case extraction of a subregion is requested.
+          Specified as `LAT_MAX LON_MIN LAT_MIN LON_MAX` (counterclockwise
+          coordinates, starting at the top) with longitude in the range 
+          -180, +180 and latitude in the range -90, +90. For example:
+          `--area 90 -180 -90 180`. Requests are rounded down
+          to two decimals. By default, the entire available area will
+          be returned.
