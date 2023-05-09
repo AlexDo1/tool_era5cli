@@ -1,37 +1,34 @@
-"""
-This script registers the uid and api_key defined in `src/api_credentials.json`
-for usage in the era5cli.  
-You can find your UID and API key in your user profile when you are logged in
-on the [Copernicus Climate Data Store]https://cds.climate.copernicus.eu).
-
-api_credentials.json must have the following structure:
-
-```json
-{
-    "uid": ID_NUMBER,
-    "api_key": "API_KEY"
-}
-```
-
-"""
-
 import json
 import subprocess
 import os
+from dotenv import load_dotenv
 
-# get current file location
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-# read api_credentials.json
-with open(os.path.join(__location__, "api_credentials.json"), "r") as f:
-    api_credentials = json.loads(f.read())
+# load environment variables from a .env file in src/
+load_dotenv()
 
-# get uid and api key
-uid = api_credentials["uid"]
-api_key = api_credentials["api_key"]
+def register_api_credentials():
+    """
+    This function registers the uid and api_key defined via environment variables.
+    You can use a .env file stored in the folder `src/` or set the environment 
+    variables `UID` and `API_KEY` manually in your environment.
+    You can find your UID and API key in your user profile when you are logged in
+    on the [Copernicus Climate Data Store]https://cds.climate.copernicus.eu).
 
-# cli command
-cmd_str = f"era5cli config --uid {uid} --key '{api_key}'"
+    """
+    uid = os.getenv("UID")
+    api_key = os.getenv("API_KEY")
 
-# register api key to era5cli
-subprocess.Popen(cmd_str, shell=True)
+    # cli command
+    cmd_str = f"era5cli config --uid {uid} --key '{api_key}'"
+
+    # register api key to era5cli
+    process = subprocess.Popen(cmd_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Capture the output and error (if any)
+    output, error = process.communicate()
+
+    # Convert the output from bytes to string
+    output = output.decode('utf-8')
+
+    print(output)
