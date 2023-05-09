@@ -1,9 +1,9 @@
 {
     "era5_land": {
-        "variables": "2m_temperature 2m_dewpoint_temperature",
+        "variables": "2m_temperature",
         "temporal_resolution": "hourly",
         "startyear": 2000,
-        "endyear": 2002,
+        "endyear": 2001,
         "area": "53.6 3.3 50.7 7.5"
     }
 }

@@ -7,6 +7,9 @@ RUN pip install json2args
 # install era5cli
 RUN pip install era5cli
 
+# install additional dependencies
+RUN pip install python-dotenv
+
 # create the tool input structure
 RUN mkdir /in
 COPY ./in /in
@@ -16,7 +19,7 @@ COPY ./src /src
 
 WORKDIR /src
 
-# register api credentials
-RUN python register_api_credentials.py
+# create folder to store api credentials
+RUN mkdir -p /root/.config/era5cli
 
 CMD ["python", "run.py"]

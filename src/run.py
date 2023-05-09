@@ -5,6 +5,11 @@ from datetime import datetime as dt
 
 from json2args import get_parameter
 
+from register_api_credentials import register_api_credentials
+
+# register api credentials to donwload data from the CDS
+register_api_credentials()
+
 # parse parameters
 kwargs = get_parameter()
 
@@ -34,12 +39,21 @@ if toolname == 'era5_land':
         cmd_str += f" --area {area}"
 
     # split data monthly to avoid error message "Your request is too large for the CDS API."
-    cmd_str += " --splitmonths True"
+    if temporal_resolution == 'hourly':
+        cmd_str += " --splitmonths True"
 
-    print(cmd_str)
+    print(f"CLI command: '{cmd_str}'")
+
+    # change working directory to /out to save downloaded files here
+    os.mkdir('/out/data')
+    os.system('chmod 777 /out/data')
+    os.chdir('/out/data')
 
     # run the command
-    subprocess.Popen(cmd_str, shell=True)
+    process = subprocess.Popen(cmd_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Capture the output and error (if any)
+    output, error = process.communicate() # TODO: why is data only downloaded with process.comunicate()???
 
 # In any other case, it was not clear which tool to run
 else:
